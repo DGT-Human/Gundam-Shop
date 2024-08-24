@@ -51,7 +51,7 @@ class ProductAdminService
         return Product::with('menu')->orderByDesc('id')->paginate(15);
     }
 
-    public function update( $request, $products)
+    public function update($request, $products)
     {
         $isValidPrice = $this->isValidPrice($request);
         if ($isValidPrice === false) {

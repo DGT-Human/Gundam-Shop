@@ -54,4 +54,5 @@ Route::middleware(['auth'])->group(function () {  // nhóm các route (đường
 
 
 Route::get('/', [MainControllerHome::class, 'index']);
+Route::post('/services/load-products', [MainControllerHome::class, 'loadProducts']);
 
