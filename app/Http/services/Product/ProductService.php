@@ -15,4 +15,12 @@ class ProductService
         return $product;
     }
 
+    public function show($request){
+        $query = Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('active', 1);
+        if($request->input('price') ){
+            $query->orderBy('price', $request->input('price'));
+        };
+           return $query->orderByDesc('id')->paginate(8);
+    }
+
 }

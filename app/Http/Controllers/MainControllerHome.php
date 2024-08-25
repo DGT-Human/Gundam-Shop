@@ -22,8 +22,8 @@ class MainControllerHome extends Controller
     }
     public function index()
     {
-        return view('main',[
-            'title' => 'Shop Fashion Online',
+        return view('home',[
+            'title' => 'Gundam Shop',
             'sliders' => $this->sliderService->show(),
             'menus' => $this->menuService->show(),
             'products' => $this->productService->get()

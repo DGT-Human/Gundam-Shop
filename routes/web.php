@@ -8,10 +8,12 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\MenuControllerHome;
 
 
 Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
 Route::post('admin/users/login/store', [LoginController::class, 'store'])->name('store');
+
 #Menu
 Route::middleware(['auth'])->group(function () {  // nhóm các route (đường dẫn) lại với nhau và áp dụng middleware auth cho tất cả các route trong nhóm đó
     Route::prefix('admin')->group(function () {
@@ -55,4 +57,4 @@ Route::middleware(['auth'])->group(function () {  // nhóm các route (đường
 
 Route::get('/', [MainControllerHome::class, 'index']);
 Route::post('/services/load-products', [MainControllerHome::class, 'loadProducts']);
-
+Route::get('danh-muc/{id}-{parent_id}-{slug}.html', [MenuControllerHome::class, 'index']);

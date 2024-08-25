@@ -20,4 +20,12 @@ class Menu extends Model
         'thumb'
     ];
 
+    public function products(){
+        return $this->hasMany(Product::class, 'menu_id', 'id');
+    }
+
+    public function parent(){
+        return $this->hasOne(Menu::class, 'id', 'parent_id');
+    }
+
 }

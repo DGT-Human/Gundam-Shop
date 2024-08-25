@@ -19,8 +19,8 @@
                             </a>
 
                             <span class="stext-105 cl3">  <!-- su dung helper de xai nhieu lan -->
-									{{\App\Helpers\helper::price($product->price, $product->price_sale)}}
-								</span>
+                                {!! \App\Helpers\helper::price($product->price, $product->price_sale)!!}
+                            </span>
                         </div>
 
                         <div class="block2-txt-child2 flex-r p-t-3">
