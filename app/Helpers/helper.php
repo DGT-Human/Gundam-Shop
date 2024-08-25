@@ -39,7 +39,7 @@ class helper{
         $html = '';
         foreach ($menus as $key => $menu){
             if ($menu->parent_id == $parent_id){
-                $html .= '<li><a href="/danh-muc/'. $menu->id .'-'. str::slug($menu->name, '-') .'.html">   ' . $menu->name . '</a>';
+                $html .= '<li><a href="/danh-muc/'. $menu->id .'-'.  $menu->parent_id .'-' . str::slug($menu->name, '-') .'.html">   ' . $menu->name . '</a>';
                 if(self::isChild($menus, $menu->id)){  //Nếu self::isChild($menus, $menu->id) trả về true, kết quả cuối cùng sẽ là một danh sách HTML <ul> chứa các mục con (sub-menu) của menu hiện tại.
                                                         //Nếu self::isChild($menus, $menu->id)  trả về false, phần mã trong khối if sẽ không được thực thi, nghĩa là menu hiện tại không có menu con.
                     $html .= '<ul class="sub-menu">';
@@ -53,6 +53,27 @@ class helper{
         return $html;
     }
 
+    public static function menuMobile ($menus, $parent_id = 0){
+        $html = '';
+        foreach ($menus as $key => $menu){
+            if ($menu->parent_id == $parent_id){
+                $html .= '<li><a href="/danh-muc/'. $menu->id .'-'. str::slug($menu->name, '-') .'.html">   ' . $menu->name . '</a>';
+                if(self::isChild($menus, $menu->id)){  //Nếu self::isChild($menus, $menu->id) trả về true, kết quả cuối cùng sẽ là một danh sách HTML <ul> chứa các mục con (sub-menu) của menu hiện tại.
+                    //Nếu self::isChild($menus, $menu->id)  trả về false, phần mã trong khối if sẽ không được thực thi, nghĩa là menu hiện tại không có menu con.
+                    $html .= '<ul class="sub-menu-m" >';
+                    $html .= self::menuMobile($menus, $menu->id); //Đệ Quy:
+                    $html .= '</ul>';
+                    $html .='<span class="arrow-main-menu-m">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </span>';
+                    $html .= '</li>';
+                }
+
+
+            }
+        }
+        return $html;
+    }
     public static function isChild($menus, $id){
         foreach ($menus as $menu){
             if($menu->parent_id == $id){
@@ -61,14 +82,15 @@ class helper{
         }
         return false;
     }
-
     public static function price($price = 0, $price_sale = 0){
         if($price_sale != 0){
-            return number_format($price_sale).'đ';
+            return 'Giá gốc: <del style="color: red;">' . number_format($price) . 'đ</del><br>' .
+                'Đang Sale: <span style="color: green;">' . number_format($price_sale) . 'đ</span>';
         }
         if($price != 0){
             return number_format($price).'đ';
         }
         return '<a href="/lien-he.html">Liên hệ</a>';
     }
+
 }

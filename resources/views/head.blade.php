@@ -1,5 +1,5 @@
 <head>
-<title>Home</title>
+<title>{{$title}}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -33,6 +33,35 @@
 <link rel="stylesheet" type="text/css" href="/template/css/main.css">
 <!--===============================================================================================-->
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <style>
+        /* Màu của tất cả các liên kết trong phân trang */
+        .page-link {
+            color: #606366; /* Màu chữ của số trang */
+            text-decoration: none; /* Bỏ gạch dưới */
+        }
+
+        /* Màu của số trang hiện tại */
+        .page-item.active .page-link {
+            background-color: #606366; /* Màu nền của số trang hiện tại */
+            color: #fff; /* Màu chữ của số trang hiện tại */
+            border-color: #606366; /* Màu viền của số trang hiện tại */
+        }
+
+        /* Màu của các số trang khi di chuột qua */
+        .page-link:hover {
+            color: #606366; /* Màu chữ khi di chuột qua */
+            text-decoration: underline; /* Gạch dưới khi di chuột qua */
+        }
+
+        /* Màu của các phần tử phân trang bị vô hiệu hóa */
+        .page-item.disabled .page-link {
+            color: #6c757d; /* Màu chữ của phần tử bị vô hiệu hóa */
+            background-color: #e9ecef; /* Màu nền của phần tử bị vô hiệu hóa */
+            border-color: #dee2e6; /* Màu viền của phần tử bị vô hiệu hóa */
+        }
+
+    </style>
 </head>
 
 
