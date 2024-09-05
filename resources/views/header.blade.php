@@ -16,32 +16,6 @@
                     <ul class="main-menu">
                         <li><a href="/">Home</a>  </li>
                         {!! \App\Helpers\Helper::menu($menus) !!}
-{{--                            <ul class="sub-menu">--}}
-{{--                                <li><a href="index.html">Homepage 1</a></li>--}}
-{{--                                <li><a href="home-02.html">Homepage 2</a></li>--}}
-{{--                                <li><a href="home-03.html">Homepage 3</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-
-                        <li>
-                            <a href="product.html">Shop</a>
-                        </li>
-
-                        <li class="label1" data-label1="hot">
-                            <a href="shoping-cart.html">Features</a>
-                        </li>
-
-                        <li>
-                            <a href="blog.html">Blog</a>
-                        </li>
-
-                        <li>
-                            <a href="about.html">About</a>
-                        </li>
-
-                        <li>
-                            <a href="contact.html">Contact</a>
-                        </li>
                     </ul>
                 </div>
 
@@ -73,7 +47,7 @@
     <div class="wrap-header-mobile">
         <!-- Logo moblie -->
         <div class="logo-mobile">
-            <a href="index.html"><img src="/template/images/icons/logo-02.png" alt="IMG-LOGO"></a>
+            <a href="/"><img src="/template/images/icons/logo-02.png" alt="IMG-LOGO"></a>
         </div>
 
         <!-- Icon header -->
@@ -99,7 +73,7 @@
     <div class="menu-mobile">
         <ul class="main-menu-m">
             <li>
-                <a href="index.html">Home</a>
+                <a href="/">Home</a>
             </li>
 
                 {!! \App\Helpers\Helper::menuMobile($menus) !!}
