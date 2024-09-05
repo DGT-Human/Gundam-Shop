@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\MenuControllerHome;
+use App\Http\Controllers\ProductControllerHome;
+use App\Http\Controllers\CartController;
 
 
 Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
@@ -58,3 +60,5 @@ Route::middleware(['auth'])->group(function () {  // nhóm các route (đường
 Route::get('/', [MainControllerHome::class, 'index']);
 Route::post('/services/load-products', [MainControllerHome::class, 'loadProducts']);
 Route::get('danh-muc/{id}-{parent_id}-{slug}.html', [MenuControllerHome::class, 'index']);
+Route::get('san-pham/{id}-{slug}.html', [ProductControllerHome::class, 'index']);
+Route::post('add-to-cart', [CartController::class, 'index']);

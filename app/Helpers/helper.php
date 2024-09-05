@@ -35,53 +35,66 @@ class helper{
         return '<span class="badge bg-danger">Inactive</span>';
     }
 
-    public static function menu ($menus, $parent_id = 0){
+    public static function menu($menus, $parent_id = 0) {
+        // Chuyển Collection thành mảng
+        $menusArray = $menus->toArray();
+
+        // Sắp xếp mảng $menusArray theo id tăng dần
+        usort($menusArray, function($a, $b) {
+            return $a['id'] - $b['id']; // Hoặc $b['id'] - $a['id'] nếu muốn sắp xếp giảm dần
+        });
+
         $html = '';
-        foreach ($menus as $key => $menu){
-            if ($menu->parent_id == $parent_id){
-                $html .= '<li><a href="/danh-muc/'. $menu->id .'-'.  $menu->parent_id .'-' . str::slug($menu->name, '-') .'.html">   ' . $menu->name . '</a>';
-                if(self::isChild($menus, $menu->id)){  //Nếu self::isChild($menus, $menu->id) trả về true, kết quả cuối cùng sẽ là một danh sách HTML <ul> chứa các mục con (sub-menu) của menu hiện tại.
-                                                        //Nếu self::isChild($menus, $menu->id)  trả về false, phần mã trong khối if sẽ không được thực thi, nghĩa là menu hiện tại không có menu con.
+        foreach ($menusArray as $menu) {
+            if ($menu['parent_id'] == $parent_id) {
+                $html .= '<li><a href="/danh-muc/' . $menu['id'] . '-' . $menu['parent_id'] . '-' . str::slug($menu['name'], '-') . '.html"> ' . $menu['name'] . '</a>';
+                if (self::isChild($menusArray, $menu['id'])) {
                     $html .= '<ul class="sub-menu">';
-                    $html .= self::menu($menus, $menu->id); //Đệ Quy:
+                    $html .= self::menu(collect($menusArray), $menu['id']); // Đệ quy, cần chuyển lại thành Collection nếu cần
                     $html .= '</ul>';
                 }
-
                 $html .= '</li>';
             }
         }
         return $html;
     }
 
-    public static function menuMobile ($menus, $parent_id = 0){
+    public static function menuMobile($menus, $parent_id = 0) {
+        // Chuyển Collection thành mảng
+        $menusArray = $menus->toArray();
+
+        // Sắp xếp mảng $menusArray theo id tăng dần
+        usort($menusArray, function($a, $b) {
+            return $a['id'] - $b['id']; // Hoặc $b['id'] - $a['id'] nếu muốn sắp xếp giảm dần
+        });
+
         $html = '';
-        foreach ($menus as $key => $menu){
-            if ($menu->parent_id == $parent_id){
-                $html .= '<li><a href="/danh-muc/'. $menu->id .'-'. str::slug($menu->name, '-') .'.html">   ' . $menu->name . '</a>';
-                if(self::isChild($menus, $menu->id)){  //Nếu self::isChild($menus, $menu->id) trả về true, kết quả cuối cùng sẽ là một danh sách HTML <ul> chứa các mục con (sub-menu) của menu hiện tại.
-                    //Nếu self::isChild($menus, $menu->id)  trả về false, phần mã trong khối if sẽ không được thực thi, nghĩa là menu hiện tại không có menu con.
-                    $html .= '<ul class="sub-menu-m" >';
-                    $html .= self::menuMobile($menus, $menu->id); //Đệ Quy:
+        foreach ($menusArray as $menu) {
+            if ($menu['parent_id'] == $parent_id) {
+                $html .= '<li><a href="/danh-muc/' . $menu['id'] . '-' . $menu['parent_id'] . '-' . str::slug($menu['name'], '-') . '.html"> ' . $menu['name'] . '</a>';
+                if (self::isChild($menusArray, $menu['id'])) {
+                    $html .= '<ul class="sub-menu-m">';
+                    $html .= self::menuMobile(collect($menusArray), $menu['id']); // Đệ quy, cần chuyển lại thành Collection nếu cần
                     $html .= '</ul>';
                     $html .='<span class="arrow-main-menu-m">
                                 <i class="fa fa-angle-right" aria-hidden="true"></i>
                             </span>';
                     $html .= '</li>';
                 }
-
-
             }
         }
         return $html;
     }
-    public static function isChild($menus, $id){
-        foreach ($menus as $menu){
-            if($menu->parent_id == $id){
+
+    public static function isChild($menus, $id) {
+        foreach ($menus as $menu) {
+            if ($menu['parent_id'] == $id) {
                 return true;
             }
         }
         return false;
     }
+
     public static function price($price = 0, $price_sale = 0){
         if($price_sale != 0){
             return 'Giá gốc: <del style="color: red;">' . number_format($price) . 'đ</del><br>' .

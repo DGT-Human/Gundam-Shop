@@ -19,7 +19,7 @@ class MenuControllerHome extends Controller
     {
         if($parent_id == 0){
             $menu = $this->menuService->find($id);
-            $products = $this->productService->show($request);
+            $products = $this->productService->show($request, $id);
         }
         if($parent_id != 0){
             $menu = $this->menuService->find($id);
