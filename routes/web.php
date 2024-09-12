@@ -62,3 +62,7 @@ Route::post('/services/load-products', [MainControllerHome::class, 'loadProducts
 Route::get('danh-muc/{id}-{parent_id}-{slug}.html', [MenuControllerHome::class, 'index']);
 Route::get('san-pham/{id}-{slug}.html', [ProductControllerHome::class, 'index']);
 Route::post('add-to-cart', [CartController::class, 'index']);
+Route::get('carts', [CartController::class, 'show']);
+Route::post('update-cart', [CartController::class, 'update']);
+Route::get('/remove-cart/{id}', [CartController::class, 'remove']);
+Route::post('carts', [CartController::class, 'addCarts']);

@@ -26,7 +26,8 @@ class MainControllerHome extends Controller
             'title' => 'Gundam Shop',
             'sliders' => $this->sliderService->show(),
             'menus' => $this->menuService->show(),
-            'products' => $this->productService->get()
+            'products' => $this->productService->get(),
+            'productCarts' => $this->productService->getAll()
         ]);
     }
 

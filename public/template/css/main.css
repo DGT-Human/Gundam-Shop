@@ -1929,6 +1929,7 @@ input.num-product::-webkit-inner-spin-button {
 .table-shopping-cart .column-2 {
   width: 220px;
   font-size: 15px;
+  padding-right: 20px;
 }
 
 .table-shopping-cart .column-3 {
@@ -1938,14 +1939,16 @@ input.num-product::-webkit-inner-spin-button {
 
 .table-shopping-cart .column-4 {
   width: 145px;
-  text-align: right;
+  text-align: center;
+  padding-left: 60px;
 }
 
 .table-shopping-cart .column-5 {
   width: 172px;
   padding-right: 50px;
-  text-align: right;
+  text-align: center;
   font-size: 16px;
+  padding-left: 60px;
 }
 
 .table-shopping-cart .table_row {
@@ -2966,7 +2969,7 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .how-itemcart1::after {
-  content: '\e870';
+  content: '\e86f';
   font-family: Linearicons-Free;
   font-size: 16px;
   display: -webkit-box;

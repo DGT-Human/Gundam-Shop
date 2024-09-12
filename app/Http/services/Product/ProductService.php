@@ -16,6 +16,10 @@ class ProductService
         return $product;
     }
 
+    public function getAll(){
+        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('active', 1)->orderByDesc('id')->get();
+    }
+
     public function show($request, $id){
         $menuChild = Menu::where('parent_id', $id)->get();
         $query = Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('active', 1)->whereIn('menu_id', $menuChild->pluck('id'));
@@ -39,6 +43,5 @@ class ProductService
             ->inRandomOrder()
             ->limit(4)
             ->get();
-
     }
 }

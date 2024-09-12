@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="{{ count(\Illuminate\Support\Facades\Session::get('carts') ?? []) }}">
                             <i class="zmdi zmdi-shopping-cart"></i>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
         <div class="wrap-icon-header flex-w flex-r-m h-full m-r-15">
             <div class="flex-c-m h-full p-r-5">
                 <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart"
-                     data-notify="2">
+                     data-notify="{{ count(\Illuminate\Support\Facades\Session::get('carts') ?? []) }}">
                     <i class="zmdi zmdi-shopping-cart"></i>
                 </div>
             </div>
