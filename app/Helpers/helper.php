@@ -103,7 +103,7 @@ class helper{
         if($price != 0){
             return number_format($price).'đ';
         }
-        return '<a href="/lien-he.html">Liên hệ</a>';
+        return '<a href="https://www.facebook.com/profile.php?id=100010954298010&locale=vi_VN">Liên hệ</a>';
     }
 
 }

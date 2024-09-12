@@ -16,10 +16,12 @@ class ProductControllerHome extends Controller
     {
         $product = $this->productService->getProduct($id);
         $productMore = $this->productService->more($id);
+        $productCarts = $this->productService->getAll();
         return view('product.content', [
             'title' => $product->name,
             'product' => $product,
-            'products' => $productMore
+            'products' => $productMore,
+            'productCarts' => $productCarts
         ]);
     }
 }

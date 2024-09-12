@@ -25,10 +25,12 @@ class MenuControllerHome extends Controller
             $menu = $this->menuService->find($id);
             $products = $this->menuService->getProducts($menu, $request);
         }
+        $productCarts = $this->productService->getAll();
         return view('menu', [
             'title' => $menu->name,
             'menu' => $menu,
-            'products' => $products
+            'products' => $products,
+            'productCarts' => $productCarts
         ]);
     }
 }
