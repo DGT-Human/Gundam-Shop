@@ -29,10 +29,26 @@
                 </li>
 
                 <li class="p-b-13">
-                    <a href="users/login" class="stext-102 cl2 hov-cl1 trans-04">
-                        My Account
-                    </a>
+                    @if(!Auth::check())
+                        <a href="{{ url('users/login') }}" class="stext-102 cl2 hov-cl1 trans-04">
+                            Login / Account
+                        </a>
+                    @else
+                        <a href="{{ url('users/account/' . Auth::user()->id)}}" class="stext-102 cl2 hov-cl1 trans-04">
+                            My Account: <b>{{ Auth::user()->name }}</b>
+                        </a>
+                        <span> | </span>
+                        <a href="{{ route('logout') }}" class="stext-102 cl2 hov-cl1 trans-04"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    @endif
                 </li>
+
 
                 <li class="p-b-13">
                     <a href="#" class="stext-102 cl2 hov-cl1 trans-04">

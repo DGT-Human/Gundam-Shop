@@ -6,12 +6,12 @@
         <div class="slick1">
             @foreach($sliders as $slide)
                 <div class="item-slick1 bg-overlay1 " style="background-image: url('{{ $slide->thumb }}');"
-                     data-thumb="{{$slide->thumb}}" data-caption="{{ $slide->name }}" >
+                     data-thumb="{{$slide->thumb}}" data-caption="" >
                     <div class="container h-full">
                         <div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
                             <div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2">
-									{{ $slide->name }}
+								<span class="ltext-202 txt-center cl0 respon2 custom-text">
+                                   {{ $slide->name }}
 								</span>
                             </div>
 

@@ -44,4 +44,9 @@ class ProductService
             ->limit(4)
             ->get();
     }
+
+    public function search(mixed $keyword)
+    {
+        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('name', 'like', "%$keyword%")->get();
+    }
 }

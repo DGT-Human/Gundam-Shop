@@ -60,7 +60,11 @@
             background-color: #e9ecef; /* Màu nền của phần tử bị vô hiệu hóa */
             border-color: #dee2e6; /* Màu viền của phần tử bị vô hiệu hóa */
         }
-
+        .custom-text {
+            font-family: 'Arial', sans-serif; /* Thay đổi phông chữ */
+            font-size: 30px; /* Thay đổi kích thước chữ */
+            color: #fffffc; /* Thay đổi màu chữ */
+        }
     </style>
 </head>
 

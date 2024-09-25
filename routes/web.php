@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Users\LoginController;
 use App\Http\Controllers\MainControllerHome;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\MenuController;
@@ -11,10 +10,8 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\MenuControllerHome;
 use App\Http\Controllers\ProductControllerHome;
 use App\Http\Controllers\CartController;
-
-
-Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
-Route::post('admin/users/login/store', [LoginController::class, 'store'])->name('store');
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\AccountControllerHome;
 
 #Menu
 Route::middleware(['auth'])->group(function () {  // nhóm các route (đường dẫn) lại với nhau và áp dụng middleware auth cho tất cả các route trong nhóm đó
@@ -52,12 +49,29 @@ Route::middleware(['auth'])->group(function () {  // nhóm các route (đường
             Route::DELETE('destroy', [SliderController::class, 'destroy']);
         });
 
+        Route::prefix('orders')->group(function () {
+            Route::get('list', [OrderController::class, 'index']);
+            Route::get('edit/{order}', [OrderController::class, 'show']);
+            Route::post('edit/{order}', [OrderController::class, 'update']);
+            Route::DELETE('destroy', [OrderController::class, 'destroy']);
+        });
     });
 
 });
 
+Route::get('users/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
+Route::post('users/login/store', [\App\Http\Controllers\LoginController::class, 'store'])->name('store');
+Route::post('users/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
+Route::get('users/signup', [\App\Http\Controllers\LoginController::class, 'register'])->name('register');
+Route::post('users/signup/store', [\App\Http\Controllers\LoginController::class, 'postregister'])->name('postregister');
+Route::get('users/account/{id}', [AccountControllerHome::class, 'index'])->name('profile');
+Route::post('users/account/{id}', [AccountControllerHome::class, 'update'])->name('update');
+Route::get('users/account/orders/{id}', [AccountControllerHome::class, 'orders'])->name('orders');
 
-Route::get('/', [MainControllerHome::class, 'index']);
+
+
+Route::get('/', [MainControllerHome::class, 'index'])->name('home');
+Route::get('/search', [MainControllerHome::class, 'search']);
 Route::post('/services/load-products', [MainControllerHome::class, 'loadProducts']);
 Route::get('danh-muc/{id}-{parent_id}-{slug}.html', [MenuControllerHome::class, 'index']);
 Route::get('san-pham/{id}-{slug}.html', [ProductControllerHome::class, 'index']);
