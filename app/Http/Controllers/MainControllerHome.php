@@ -46,4 +46,10 @@ class MainControllerHome extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('search');
+        $products = $this->productService->search($keyword);
+        return view('product.search', ['products' => $products], ['title' => 'Kết quả tìm kiếm']);
+    }
 }

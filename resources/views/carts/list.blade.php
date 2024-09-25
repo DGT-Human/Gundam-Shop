@@ -119,26 +119,47 @@
 									<span class="stext-112 cl8">
 										Thông tin giao hàng
 									</span>
+                                    @if (Auth::check())
+                                        <div class="bor8 bg0 m-b-22">
+                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="name" placeholder="Tên của bạn" value = "{{ Auth::user()->name }}" readonly>
+                                        </div>
 
+                                        <div class="bor8 bg0 m-b-22">
+                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="phone" placeholder="Số điện thoại" value = "{{ Auth::user()->phone }}" readonly>
+                                        </div>
+
+                                        <div class="bor8 bg0 m-b-22">
+                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address" placeholder="Địa chỉ giao hàng" value = "{{ Auth::user()->address }}" readonly>
+                                        </div>
+
+                                        <div class="bor8 bg0 m-b-22">
+                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="email" placeholder="Email" value = "{{ Auth::user()->email }}" readonly>
+                                        </div>
+
+                                        <div class="bor8 bg0 m-b-22">
+                                            <textarea class="stext-111 cl8 plh3 size-130 p-lr-15" name="content" id="" cols="30" rows="10"></textarea>
+                                        </div>
+                                    @else
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="name" placeholder="Tên của bạn">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="name" placeholder="Tên của bạn" >
                                     </div>
 
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="phone" placeholder="Số điện thoại">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="phone" placeholder="Số điện thoại" >
                                     </div>
 
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address" placeholder="Địa chỉ giao hàng">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address" placeholder="Địa chỉ giao hàng" >
                                     </div>
 
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="email" placeholder="Email">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="email" placeholder="Email" >
                                     </div>
 
                                     <div class="bor8 bg0 m-b-22">
                                         <textarea class="stext-111 cl8 plh3 size-130 p-lr-15" name="content" id="" cols="30" rows="10"></textarea>
                                     </div>
+                                    @endif
                                 </div>
                         </div>
                         <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" type="submit">

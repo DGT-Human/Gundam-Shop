@@ -106,9 +106,9 @@
             <i class="zmdi zmdi-close"></i>
         </button>
 
-        <form class="container-search-header">
+        <form class="container-search-header" action="/search" method="get">
             <div class="wrap-search-header">
-                <input class="plh0" type="text" name="search" placeholder="Search...">
+                <input class="plh0" type="text" name="search" placeholder="Search..." value="{{ request('search') }}">
 
                 <button class="flex-c-m trans-04">
                     <i class="zmdi zmdi-search"></i>
