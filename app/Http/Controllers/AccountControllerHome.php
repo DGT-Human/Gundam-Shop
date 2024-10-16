@@ -18,9 +18,14 @@ class AccountControllerHome extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $id)
     {
-        return view('account.myaccount', ['title' => 'Thông tin cá nhân']);
+        $orders = $this->accountService->getOrders($id);
+//        dd($orders);
+        return view('account.myaccount', [
+            'title' => 'Thông tin cá nhân',
+            'groups' => $orders,
+        ]);
     }
 
     /**
@@ -58,23 +63,26 @@ class AccountControllerHome extends Controller
     /**
      * Update the specified resource in storage.
      */
+    public function setting()
+    {
+        return view('account.setting', [
+            'title' => 'Cài đặt tài khoản'
+        ]);
+    }
     public function update(Request $request, string $id)
     {
         $this->accountService->update($request, $id);
         return redirect()->back();
     }
-
-    public function orders(string $id)
+    public function order(string $id)
     {
-        $orders = $this->accountService->getOrders($id);
-        foreach ($orders as $order) {
-            $productId = $order->product_id; // Lấy product_id từ từng order
-            $product = $this->accountService->getProduct($productId);
-            // Xử lý logic với product
+        $orders = $this->accountService->getOrder($id);
+
+        #néu chỉ có 1 đơn hàng
+            return view('account.orderDetail', [
+                'title' => 'Đơn hàng của tôi',
+                'orders' => $orders,
+            ]);
         }
-        return view('account.orders', ['title' => 'Đơn hàng của tôi'
-            , 'orders' => $orders, 'products' => $product
-        ]);
-    }
 }
 

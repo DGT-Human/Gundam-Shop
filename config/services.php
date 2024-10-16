@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'facebook' => [
+        'client_id' => 'FACEBOOK_CLIENT_TO', //USE FROM FACEBOOK DEVELOPER ACCOUNT
+        'client_secret' => 'FACEBOOK_CLIENT_SECRET', //USE FROM FACEBOOK DEVELOPER ACCOUNT
+        'redirect' => ''
+    ],
 ];

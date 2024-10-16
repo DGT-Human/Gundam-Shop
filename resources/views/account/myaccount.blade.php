@@ -1,130 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
+@extends('admin.head')
+<div class="row">
+    <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle" src="/template/images/image.jpg" alt="User profile picture">
+                    </div>
 
+                    <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
 
-    <title>{{ $title }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-        body{margin-top:20px;
-            background-color:#f2f6fc;
-            color:#69707a;
-        }
-        .img-account-profile {
-            height: 10rem;
-        }
-        .rounded-circle {
-            border-radius: 50% !important;
-        }
-        .card {
-            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
-        }
-        .card .card-header {
-            font-weight: 500;
-        }
-        .card-header:first-child {
-            border-radius: 0.35rem 0.35rem 0 0;
-        }
-        .card-header {
-            padding: 1rem 1.35rem;
-            margin-bottom: 0;
-            background-color: rgba(33, 40, 50, 0.03);
-            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
-        }
-        .form-control, .dataTable-input {
-            display: block;
-            width: 100%;
-            padding: 0.875rem 1.125rem;
-            font-size: 0.875rem;
-            font-weight: 400;
-            line-height: 1;
-            color: #69707a;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #c5ccd6;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            border-radius: 0.35rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        .nav-borders .nav-link.active {
-            color: #69707a;
-            border-bottom-color: #69707a;
-        }
-        .nav-borders .nav-link {
-            color: #69707a;
-            border-bottom-width: 0.125rem;
-            border-bottom-style: solid;
-            border-bottom-color: transparent;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            padding-left: 0;
-            padding-right: 0;
-            margin-left: 1rem;
-            margin-right: 1rem;
-        }
-    </style>
-</head>
-<body>
-<div class="container-xl px-4 mt-4">
-
-    <nav class="nav nav-borders">
-        <a class="nav-link ms-0" href="/" >Home</a>
-        <a class="nav-link active" href="{{ url('users/account/'. Auth::user()->id) }}" >Profile</a>
-        <a class="nav-link" href="{{ url('users/account/orders/'. Auth::user()->id) }}" >Billing</a>
-        <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" >Security</a>
-        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-    </nav>
-    <hr class="mt-0 mb-4">
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-    <div class="row">
-        <div class="col-xl-8">
-
-            <div class="card mb-4">
-                <div class="card-header">Account Details</div>
-                <div class="card-body">
-                    <form action="" method="post">
-
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Name</label>
-                            <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="{{ Auth::user()->name }}" name="name">
-                        </div>
-
-
-                        <div class="mb-3">
-                                <label class="small mb-1" for="inputOrgName">Address</label>
-                                <input class="form-control" id="inputOrgName" type="text" placeholder="Enter your organization name" value=" {{ Auth::user()->address }} " name="address">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address"
-                                   value="{{ Auth::user()->email }}" readonly name="email">
-                        </div>
-
-                        <div class="mb-3">
-                                <label class="small mb-1" for="inputPhone">Phone number</label>
-                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="{{ Auth::user()->phone }}" name="phone">
-                        </div>
-
-                        <button class="btn btn-primary" style="background-color: #69707a; border-bottom-color: #69707a" type="submit" >Save changes</button>
-                        @csrf
-                    </form>
                 </div>
+                <!-- /.card-body -->
             </div>
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
+            <!-- /.card -->
 
-</script>
-</body>
-</html>
+            <!-- About Me Box -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">About Me</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <strong><i class="fas fa-book mr-1"></i>Email</strong>
+
+                    <p class="text-muted">
+                        {{ Auth::user()->email }}
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fas fa-map-marker-alt mr-1"></i> Phone</strong>
+
+                    <p class="text-muted">{{ Auth::user()->phone }}</p>
+
+                    <hr>
+
+                    <strong><i class="fas fa-pencil-alt mr-1"></i>Address</strong>
+
+                    <p class="text-muted">{{ Auth::user()->address }}</p>
+
+                    <hr>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link" href="/" data-toggle="tab">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url('users/account/'. Auth::user()->id) }}" data-toggle="tab">Information</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('users/account/settings/'. Auth::user()->id) }}" data-toggle="tab">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" data-toggle="tab">Logout</a></li>
+                </ul>
+            </div><!-- /.card-header -->
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <br>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">My Orders</h3>
+
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                @foreach($groups as $order)
+                                        <tr>
+                                            <td>{{$order['id']}}</td>
+                                            <td>{{$order['date']}}</td>
+                                            <td>{{$order['sum_quantity']}}</td>
+                                            <td>{{ number_format($order['total_price'], 0, ',', '.') }} VND</td>
+                                            <td>
+                                                @switch($order['status'])
+                                                    @case('pending')
+                                                        <span class="badge badge-warning">Chờ xử lý</span>
+                                                        @break
+                                                    @case('completed')
+                                                        <span class="badge badge-success">Hoàn thành</span>
+                                                        @break
+                                                    @case('canceled')
+                                                        <span class="badge badge-danger">Đã hủy</span>
+                                                        @break
+                                                    @default
+                                                        <span class="badge badge-secondary">Không xác định</span>
+                                                @endswitch
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary"><a style="color: white" href=" {{ url('users/account/'. $order['id']. '/order')}}">Xem</a></button>
+                                                @if ($order['status'] == 'pending')
+                                                    <button class="btn btn-danger">Hủy</button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+
+    <!-- /.col -->
+</div>

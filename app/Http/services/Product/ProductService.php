@@ -47,6 +47,12 @@ class ProductService
 
     public function search(mixed $keyword)
     {
-        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('name', 'like', "%$keyword%")->get();
+        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('name', 'like', "%$keyword%")->where('active', 1)->paginate(8);
     }
+
+    public function searchMoney(mixed $input, mixed $input1)
+    {
+        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->whereBetween('price', [$input, $input1])->where('active', 1)->paginate(8);
+    }
+
 }
