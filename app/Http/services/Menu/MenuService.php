@@ -84,4 +84,7 @@ class MenuService
         return $query->orderByDesc('id')->paginate(8);
     }
 
+    public function search($keyword){
+        return Menu::select('id', 'name')->where('name', 'like', "%$keyword%")->get();
+    }
 }

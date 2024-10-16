@@ -24,4 +24,6 @@ class ProductControllerHome extends Controller
             'productCarts' => $productCarts
         ]);
     }
+
+
 }

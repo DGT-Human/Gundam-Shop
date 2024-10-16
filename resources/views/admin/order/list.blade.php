@@ -23,7 +23,6 @@
                     <th>{{ $order->created_at }}</th>
                     <th>
                         <a href="/admin/orders/edit/{{ $order->id }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="#" onclick="removeRow({{ $order->id }}, '/admin/$order/destroy')" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                     </th>
                 </tr>
             @endforeach

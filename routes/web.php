@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {  // nhóm các route (đường
 
         Route::prefix('orders')->group(function () {
             Route::get('list', [OrderController::class, 'index']);
-            Route::get('edit/{order}', [OrderController::class, 'show']);
+            Route::get('detail/{order}', [OrderController::class, 'show']);
             Route::post('edit/{order}', [OrderController::class, 'update']);
             Route::DELETE('destroy', [OrderController::class, 'destroy']);
         });
@@ -65,13 +65,16 @@ Route::post('users/logout', [\App\Http\Controllers\LoginController::class, 'logo
 Route::get('users/signup', [\App\Http\Controllers\LoginController::class, 'register'])->name('register');
 Route::post('users/signup/store', [\App\Http\Controllers\LoginController::class, 'postregister'])->name('postregister');
 Route::get('users/account/{id}', [AccountControllerHome::class, 'index'])->name('profile');
-Route::post('users/account/{id}', [AccountControllerHome::class, 'update'])->name('update');
-Route::get('users/account/orders/{id}', [AccountControllerHome::class, 'orders'])->name('orders');
+Route::get('users/account/{id}/order', [AccountControllerHome::class, 'order'])->name('order');
+Route::get('users/account/settings/{id}', [AccountControllerHome::class, 'setting'])->name('setting');
+Route::post('users/account/settings/{id}', [AccountControllerHome::class, 'update'])->name('update');
+
 
 
 
 Route::get('/', [MainControllerHome::class, 'index'])->name('home');
 Route::get('/search', [MainControllerHome::class, 'search']);
+Route::get('/search-money', [MainControllerHome::class, 'searchMoney']);
 Route::post('/services/load-products', [MainControllerHome::class, 'loadProducts']);
 Route::get('danh-muc/{id}-{parent_id}-{slug}.html', [MenuControllerHome::class, 'index']);
 Route::get('san-pham/{id}-{slug}.html', [ProductControllerHome::class, 'index']);

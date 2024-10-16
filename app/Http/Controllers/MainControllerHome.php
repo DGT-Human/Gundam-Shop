@@ -49,7 +49,22 @@ class MainControllerHome extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('search');
+        $menus = $this->menuService->search($keyword);
+        $productCarts = $this->productService->getAll();
         $products = $this->productService->search($keyword);
-        return view('product.search', ['products' => $products], ['title' => 'Kết quả tìm kiếm']);
+        if(count($products) == 0){
+            return view('menu', ['products' => $products, 'menus' =>  $menus, 'productCarts' => $productCarts, 'title' => 'Không tìm thấy kết quả']);
+        }
+        return view('menu', ['products' => $products, 'menus' =>  $menus, 'productCarts' => $productCarts, 'title' => 'Kết quả tìm kiếm']);
+    }
+
+    public function searchMoney (Request $request){
+        $menus = $this->menuService->show();
+        $productCarts = $this->productService->getAll();
+        $products = $this->productService->searchMoney($request->input('min_price'), $request->input('max_price'));
+        if(count($products) == 0){
+            return view('menu', ['products' => $products, 'menus' =>  $menus, 'productCarts' => $productCarts, 'title' => 'Không tìm thấy kết quả']);
+        }
+        return view('menu', ['products' => $products, 'menus' =>  $menus, 'productCarts' => $productCarts, 'title' => 'Kết quả tìm kiếm']);
     }
 }

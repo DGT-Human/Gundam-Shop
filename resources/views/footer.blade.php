@@ -243,6 +243,15 @@
     </div>
 </div>
 
+
+<!-- JavaScript -->
+<script>
+    function updatePriceValue(val) {
+        // Chuyển đổi giá trị thành định dạng tiền tệ VNĐ
+        let formattedVal = new Intl.NumberFormat('vi-VN').format(val);
+        document.getElementById('priceValue').textContent = `${formattedVal} VNĐ`;
+    }
+</script>
 <!--===============================================================================================-->
 <script src="/template/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
