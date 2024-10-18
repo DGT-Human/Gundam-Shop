@@ -47,3 +47,7 @@ This is a complete e-commerce application built with Laravel 11 and using MySQL 
 ## Contributing
 
 Thank you for considering contributing to this project!
+
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
