@@ -355,3 +355,21 @@
 <script src="/template/js/public.js"></script>
 
 
+<script>
+    function changeQuantity(delta) {
+        var input = document.getElementById('num-product');
+        var currentValue = parseInt(input.value);
+        var maxQuantity = parseInt(input.getAttribute('max')-1); // Lấy giá trị max từ thuộc tính max
+
+        var newValue = currentValue + delta;
+
+        // Giới hạn số lượng tối đa dựa trên giá trị max
+        if (newValue >= 1 && newValue <= maxQuantity) {
+            input.value = newValue;
+        } else if (newValue < 1) {
+            input.value = 1; // Không cho phép số lượng nhỏ hơn 1
+        } else if (newValue > maxQuantity) {
+            input.value = maxQuantity; // Không cho phép số lượng lớn hơn giá trị tối đa
+        }
+    }
+</script>

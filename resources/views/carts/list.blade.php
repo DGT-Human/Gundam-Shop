@@ -50,13 +50,13 @@
                                     <td class="column-3" >{{ number_format($price, '0', '', '.') }}đ</td>
                                     <td class="column-4" style="padding-left: 60px;">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" onclick="changeQuantity({{ $product->id }}, -1)">
                                                 <i class="fs-16 zmdi zmdi-minus"></i>
                                             </div>
 
-                                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product[{{$product->id}}]" value="{{ $carts[$product->id] }}">
+                                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product[{{$product->id}}]" value="{{ $carts[$product->id] ?? 1 }}" min="1" max="{{ $product->quantity }}" id="num-product-{{$product->id}}">
 
-                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" onclick="changeQuantity({{ $product->id }}, 1)">
                                                 <i class="fs-16 zmdi zmdi-plus"></i>
                                             </div>
                                         </div>
@@ -129,7 +129,7 @@
                                         </div>
 
                                         <div class="bor8 bg0 m-b-22">
-                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address" placeholder="Địa chỉ giao hàng" value = "{{ Auth::user()->address }}" readonly>
+                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address" placeholder="Địa chỉ giao hàng" value = "{{ Auth::user()->address }}, {{ Auth::user()->city }}" readonly>
                                         </div>
 
                                         <div class="bor8 bg0 m-b-22">

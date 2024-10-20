@@ -38,7 +38,6 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="menu">Giá Giảm</label>
                         <input type="number" name="price_sale" value="{{ old('price_sale') }}"  class="form-control" >
                     </div>
                 </div>
@@ -47,6 +46,11 @@
             <div class="form-group">
                 <label>Mô Tả </label>
                 <textarea name="description" class="form-control">{{ old('description') }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng</label>
+                <input type="number" name="quantity" class="form-control" value="{{ old('quantity') }}">
             </div>
 
             <div class="form-group">
