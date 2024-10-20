@@ -19,6 +19,7 @@ class AccountService
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->address = $request->input('address');
+        $user->city = $request->input('city');
         $user->save();
         return true;
     }

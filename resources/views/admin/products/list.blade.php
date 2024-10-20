@@ -8,6 +8,7 @@
             <th>Category</th>
             <th>Price</th>
             <th>Price_sale</th>
+            <th>Quantity</th>
             <th>Active</th>
             <th>Update</th>
             <th style="width:100px">&nbsp;</th>
@@ -21,6 +22,7 @@
                     <th>{{ $product->menu->name ?? 'Unknown'}}</th>
                     <th>{{ $product->price }}</th>
                     <th>{{ $product->price_sale }}</th>
+                    <th>{{ $product->quantity }}</th>
                     <th>{!!\App\Helpers\helper::active($product->active) !!}</th>
                     <th>{{ $product->updated_at }}</th>
                     <th>

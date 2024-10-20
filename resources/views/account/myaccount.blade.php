@@ -86,6 +86,7 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Date</th>
                                     <th>Quantity</th>
                                     <th>Total</th>
