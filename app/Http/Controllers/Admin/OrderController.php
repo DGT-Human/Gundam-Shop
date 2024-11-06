@@ -28,11 +28,34 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function show($id, $date)
     {
-        //
+        $order = $this->orderService->getOrder($id, $date);
+        $products = $this->orderService->getProducts($id, $date);
+        return view('admin.order.detail',[
+            'title' => 'Chi tiết đơn hàng',
+            'order' => $order,
+            'products' => $products
+        ]);
     }
 
+    public function shipping($id, $date)
+    {
+        $this->orderService->submit($id, $date);
+        return redirect()->back();
+    }
+
+    public function cancel($id, $date)
+    {
+        $this->orderService->cancel($id, $date);
+        return redirect()->back();
+    }
+
+    public function complete($id, $date)
+    {
+        $this->orderService->complete($id, $date);
+        return redirect()->back();
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -44,10 +67,6 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

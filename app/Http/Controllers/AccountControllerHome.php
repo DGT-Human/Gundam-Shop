@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\services\user\AccountService;
+use App\Http\services\Product\ProductService;
 
 class AccountControllerHome extends Controller
 {
     protected $accountService;
+    protected $productService;
 
-    public function __construct(AccountService $accountService)
+    public function __construct(AccountService $accountService, ProductService $productService)
     {
         $this->accountService = $accountService;
+        $this->productService = $productService;
     }
 
     /**
@@ -25,6 +28,7 @@ class AccountControllerHome extends Controller
         return view('account.myaccount', [
             'title' => 'Thông tin cá nhân',
             'groups' => $orders,
+            'productCarts' => $this->productService->getAll()
         ]);
     }
 
@@ -66,7 +70,8 @@ class AccountControllerHome extends Controller
     public function setting()
     {
         return view('account.setting', [
-            'title' => 'Cài đặt tài khoản'
+            'title' => 'Cài đặt tài khoản',
+            'productCarts' => $this->productService->getAll()
         ]);
     }
     public function update(Request $request, string $id)
@@ -74,15 +79,43 @@ class AccountControllerHome extends Controller
         $this->accountService->update($request, $id);
         return redirect()->back();
     }
-    public function order(string $id)
-    {
-        $orders = $this->accountService->getOrder($id);
 
-        #néu chỉ có 1 đơn hàng
+    public function changePassword(Request $request, $id){
+        $this->accountService->changePassword($request, $id);
+        return redirect()->back();
+    }
+
+    public function order(string $id, string $date)
+    {
+        $orders = $this->accountService->getOrder($id, $date);
+        if (count($orders) === 9){
+            $id1 = $orders['customer_id'];
+            $customer = $this->accountService->getCustomer($id1);
+
             return view('account.orderDetail', [
                 'title' => 'Đơn hàng của tôi',
                 'orders' => $orders,
+                'customer' => $customer,
+                'productCarts' => $this->productService->getAll()
             ]);
         }
+        else{
+        $id1 = $orders[0]['customer_id'];
+        $customer = $this->accountService->getCustomer($id1);
+
+        return view('account.orderDetail', [
+            'title' => 'Đơn hàng của tôi',
+            'orders' => $orders,
+            'customer' => $customer,
+            'productCarts' => $this->productService->getAll()
+        ]);
+        }
+    }
+
+    public function cancel(string $id, string $date)
+    {
+        $this->accountService->cancel($id, $date);
+        return redirect()->back();
+    }
 }
 

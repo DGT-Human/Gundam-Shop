@@ -113,6 +113,7 @@
                             </div>
                                 <p class="stext-111 cl6 p-t-2">
                                     Hãy nhập thông tin giao hàng để xem phí vận chuyển.
+                                    Lưu ý: Chỉ thanh toán khi nhận hàng.
                                 </p>
 
                                 <div class="p-t-15">
@@ -176,4 +177,5 @@
             @endif
         </div>
     </form>
+
 @endsection

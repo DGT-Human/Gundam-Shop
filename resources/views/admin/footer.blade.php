@@ -1,4 +1,6 @@
 <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="/template/admin/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="/template/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

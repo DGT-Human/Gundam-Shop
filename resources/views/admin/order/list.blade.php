@@ -24,9 +24,21 @@
                     <th>{{ $order->customer_address }}</th>
                     <th>{{ number_format($order->total, 0, ',', '.') }} VNĐ</th>
                     <th>{{ $order->created_at }}</th>
-                    <th>{{ $order->status }}</th>
                     <th>
-                        <a href="/admin/orders/edit/{{ $order->customer_id }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                        @if($order->status == 'pending')
+                            <span class="badge bg-warning">{{ $order->status }}</span>
+                        @elseif($order->status == 'shipping')
+                            <span class="badge bg-info">{{ $order->status }}</span>
+                        @elseif($order->status == 'completed')
+                            <span class="badge bg-success">{{ $order->status }}</span>
+                        @elseif($order->status == 'canceled')
+                            <span class="badge bg-danger">{{ $order->status }}</span>
+                        @else
+                            <span class="badge bg-secondary">{{ $order->status }}</span>
+                        @endif
+                    </th>
+                    <th>
+                        <a href="/admin/orders/detail/{{ $order->customer_id }}/{{ $order->created_at }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
                     </th>
                 </tr>
             @endforeach
