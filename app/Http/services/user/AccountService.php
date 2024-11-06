@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Customers;
 use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AccountService
 {
@@ -41,21 +42,39 @@ class AccountService
         })->map(function ($group) {
             return [
                 'id' => $group->first()->id,
-                'date' => $group->first()->created_at->format('d/m/Y H:i:s'),
-                'price' => $group->first()->price * $group->first()->quantity,
+                'date' => $group->first()->created_at->format('Y-m-d H:i:s'),
+                'price' => $group->first()->price_sale > 0
+                    ? $group->first()->price_sale * $group->first()->quantity
+                    : $group->first()->price * $group->first()->quantity,
                 'total_price' => $group->sum(function ($cart) {
-                    return $cart->price * $cart->quantity; // Tổng giá trị cho mỗi nhóm đơn hàng
-                }), // Tính tổng tiền cho mỗi nhóm
+                    return $cart->price_sale > 0
+                        ? $cart->price_sale * $cart->quantity
+                        : $cart->price * $cart->quantity;
+                }),  // Tính tổng tiền cho mỗi nhóm
                 'orders' => $group, // Danh sách đơn hàng trong nhóm
                 'sum_quantity' => $group->sum('quantity'),
                 'status' => $group->first()->status
             ];
         });
 
-        return $groupedCarts;
+        $sortedCarts = $groupedCarts->sortByDesc('date')->values();
+
+        // Paginate the sorted result using LengthAwarePaginator
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 7;
+        $currentItems = $sortedCarts->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $paginatedCarts = new LengthAwarePaginator(
+            $currentItems,
+            $sortedCarts->count(),
+            $perPage,
+            $currentPage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+
+        return $paginatedCarts;
     }
 
-    public function getOrder($id)
+    public function getOrder($id, $date)
     {
         // Tìm đối tượng Cart với ID tương ứng
         $cart = Cart::find($id);
@@ -66,21 +85,72 @@ class AccountService
         }
 
         // Lấy tất cả các đơn hàng có cùng ngày tạo
-        $sameDateCarts = Cart::where('created_at', $cart->created_at)->where('customer_id', $cart->customer_id)->get();
+        $sameDateCarts = Cart::where('created_at', $date)->where('customer_id', $cart->customer_id)->get();
+
+        $sameDateCarts = $sameDateCarts->map(function ($cart) {
+            $totalPrice = $cart->price_sale > 0
+                ? $cart->price_sale * $cart->quantity
+                : $cart->price * $cart->quantity;
+
+            // Chuyển mỗi đối tượng Cart thành mảng và thêm `total_price`
+            return array_merge($cart->toArray(), ['total_price' => $totalPrice]);
+        });
+
 
         // Nếu có nhiều đơn hàng cùng ngày, trả về danh sách
         if ($sameDateCarts->count() > 1) {
             return $sameDateCarts;
         }
-        $cart = $cart->toArray();
+//        $cart = $cart->toArray();
         // Nếu chỉ có một đơn hàng, trả về đơn hàng đó
-        return $cart;
+        return $sameDateCarts->first();
     }
 
 
-    public function getProduct ($id)
+//    public function getProduct ($id)
+//    {
+//        $product = Product::find($id);
+//        return $product;
+//    }
+
+    public function getCustomer($id)
     {
-        $product = Product::find($id);
-        return $product;
+        $customer = Customers::where('id', $id)->get();
+        return $customer;
+    }
+
+    public function cancel($id, $date)
+    {
+        $carts = Cart::find($id);
+        $sameDateCarts = Cart::where('created_at', $date)->where('customer_id', $carts->customer_id)->get();
+        foreach ($sameDateCarts as $cart) {
+            $cart->status = 'canceled';
+            $cart->save();
+            $product = Product::find($cart->product_id);
+            $product->quantity += $cart->quantity;
+            $product->save();
+        }
+        Session()->flash('success', 'Hủy đơn hàng thành công');
+    }
+
+    public function changePassword($request, $id)
+    {
+        $user = User::find($id);
+        if(!$user){
+            return false;
+        }
+        if (!bcrypt($request->input('old_password')) === $user->password) {
+            session()->flash('error', 'Mật khẩu cũ không đúng');
+            return false;
+
+        }
+        if ($request->input('new_password') != $request->input('password_confirmation')) {
+            session()->flash('error', 'Xác nhận mật khẩu không đúng');
+            return false;
+        }
+        $user->password = bcrypt($request->input('new_password'));
+        $user->save();
+        session()->flash('success', 'Đổi mật khẩu thành công');
+        return true;
     }
 }

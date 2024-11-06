@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\MenuControllerHome;
 use App\Http\Controllers\ProductControllerHome;
 use App\Http\Controllers\CartController;
@@ -51,9 +52,17 @@ Route::middleware(['auth'])->group(function () {  // nhóm các route (đường
 
         Route::prefix('orders')->group(function () {
             Route::get('list', [OrderController::class, 'index']);
-            Route::get('detail/{order}', [OrderController::class, 'show']);
-            Route::post('edit/{order}', [OrderController::class, 'update']);
-            Route::DELETE('destroy', [OrderController::class, 'destroy']);
+            Route::get('detail/{order}/{date}', [OrderController::class, 'show']);
+            Route::post('/order/submit/{order}/{date}', [OrderController::class, 'shipping'])->name('order.shipping');
+            Route::post('/order/cancel/{order}/{date}', [OrderController::class, 'cancel'])->name('order.cancel');
+            Route::post('/order/complete/{order}/{date}', [OrderController::class, 'complete'])->name('order.complete');
+        });
+
+        Route::prefix('accounts')->group(function () {
+            Route::get('list', [UserController::class, 'index']);
+            Route::get('edit/{account}', [UserController::class, 'show']);
+            Route::post('/user/{id}/update', [UserController::class, 'update'])->name('user.update');
+            Route::post('/user/{id}/change-password', [UserController::class, 'changePassword'])->name('user.changePassword');
         });
     });
 
@@ -65,9 +74,11 @@ Route::post('users/logout', [\App\Http\Controllers\LoginController::class, 'logo
 Route::get('users/signup', [\App\Http\Controllers\LoginController::class, 'register'])->name('register');
 Route::post('users/signup/store', [\App\Http\Controllers\LoginController::class, 'postregister'])->name('postregister');
 Route::get('users/account/{id}', [AccountControllerHome::class, 'index'])->name('profile');
-Route::get('users/account/{id}/order', [AccountControllerHome::class, 'order'])->name('order');
+Route::get('users/account/{id}/order/{date}', [AccountControllerHome::class, 'order'])->name('order');
+Route::post('users/account/{id}/order/{date}', [AccountControllerHome::class, 'cancel'])->name('account.order.cancel');
 Route::get('users/account/settings/{id}', [AccountControllerHome::class, 'setting'])->name('setting');
 Route::post('users/account/settings/{id}', [AccountControllerHome::class, 'update'])->name('update');
+Route::post('users/account/settings/{id}/password-reset', [AccountControllerHome::class, 'changePassword'])->name('setting.change-password');
 
 
 

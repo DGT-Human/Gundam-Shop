@@ -34,7 +34,7 @@
                             Login / Account
                         </a>
                     @else
-                        <a href="{{ url('users/account/' . Auth::user()->id)}}" class="stext-102 cl2 hov-cl1 trans-04">
+                        <a href="{{ url('users/account/settings/'. Auth::user()->id) }}" class="stext-102 cl2 hov-cl1 trans-04">
                             My Account: <b>{{ Auth::user()->name }}</b>
                         </a>
                         <span> | </span>
@@ -51,7 +51,7 @@
 
 
                 <li class="p-b-13">
-                    <a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+                    <a href="{{ url('users/account/' . Auth::user()->id)}}" class="stext-102 cl2 hov-cl1 trans-04">
                         Track Oder
                     </a>
                 </li>

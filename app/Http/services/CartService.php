@@ -16,7 +16,8 @@ class CartService
     public function create($request){
         $qty = (int) $request->input('num-product');
         $product_id = (int) $request->input('product_id');
-        if($qty <= 0 || $product_id <= 0){
+        $quantity = Product::find($product_id)->quantity;
+        if($qty <= 0 || $product_id <= 0 || $qty > $quantity){
             Session::flash('error', 'Số lượng sản phẩm không hợp lệ');
             return false;
         }
@@ -30,11 +31,17 @@ class CartService
         }
         $exists = Arr::exists($carts, $product_id);
         if($exists){
-            $carts[$product_id] = $carts[$product_id] + $qty;
-            Session::put('carts',
-                $carts
-            );
-            return true;
+            if ($carts[$product_id] + $qty > $quantity){
+                Session::flash('error', 'Số lượng sản phẩm không hợp lệ');
+                return false;
+            }
+            else {
+                $carts[$product_id] = $carts[$product_id] + $qty;
+                Session::put('carts',
+                    $carts
+                );
+                return true;
+            }
         }
 
         $carts[$product_id] = $qty;
@@ -108,18 +115,27 @@ class CartService
 
     protected function infoProductCart($carts, $customer){
         $product_ids = array_keys($carts);
-        $products = Product::select('id', 'name', 'price', 'price_sale', 'thumb')
+        $products = Product::select('id', 'name', 'price', 'price_sale', 'thumb', 'quantity')
             ->whereIn('id', $product_ids)
             ->where('active', 1)
             ->get();
         $data = [];
         foreach ($products as $product){
+            $quantity_in_cart = $carts[$product->id];
+
+            // Kiểm tra nếu số lượng trong giỏ hàng không vượt quá số lượng còn lại của sản phẩm
+            if ($quantity_in_cart > $product->quantity) {
+                // Đưa ra thông báo lỗi hoặc xử lý trường hợp không đủ số lượng
+                throw new \Exception("Sản phẩm {$product->name} không đủ số lượng.");
+            }
             $data[] = [
                 'customer_id' => $customer->id,
                 'product_id' => $product->id,
                 'quantity' => $carts[$product->id],
                 'price' => $product->price_sale !== 0 ? $product->price_sale : $product->price,
             ];
+            $product->quantity -= $quantity_in_cart;
+            $product->save();
         }
 
         return Cart::insert($data);
