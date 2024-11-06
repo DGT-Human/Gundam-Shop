@@ -2,7 +2,7 @@
 @extends('admin.head')
 
 @section('content')
-    <div class="wrapper wrapper--w790 mt-5">
+    <div class="mt-5">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -166,5 +166,8 @@
                 </div>
             </div><!-- /.card-body -->
         </div>
+    <div class="mt-5">
+
+    </div>
         <!-- /.card -->
 @endsection
