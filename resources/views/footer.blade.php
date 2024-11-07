@@ -373,3 +373,8 @@
         }
     }
 </script>
+<script>
+    function addToWishlist(productId) {
+        document.getElementById('wishlist-form-' + productId).submit();
+    }
+</script>
