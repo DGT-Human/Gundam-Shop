@@ -2,8 +2,6 @@
 
 @section ('content')
 
-
-
     <form class="bg0 p-t-75 p-b-85" method="post">
         <div class="container">
             <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-40 p-lr-0-lg">
@@ -18,6 +16,7 @@
             </div>
             @if(count($products) != 0)
                 @php $total = 0;
+                    $carts = session()->get('carts');
                 @endphp
             <div class="row">
                 <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50 p-t-40">
@@ -171,11 +170,13 @@
                 </div>
             </div>
             @else
-                <div class="text-center p-t-40">
+                <div class="text-center p-t-40 mt-5">
                     <h2>Không có sản phẩm nào trong giỏ hàng</h2>
                 </div>
             @endif
         </div>
     </form>
+    <div class = "m-t-300">
 
+    </div>
 @endsection

@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductControllerHome;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\AccountControllerHome;
+use App\Http\Controllers\WishlistController;
 
 #Menu
 Route::middleware(['auth'])->group(function () {  // nhóm các route (đường dẫn) lại với nhau và áp dụng middleware auth cho tất cả các route trong nhóm đó
@@ -73,13 +74,19 @@ Route::post('users/login/store', [\App\Http\Controllers\LoginController::class, 
 Route::post('users/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::get('users/signup', [\App\Http\Controllers\LoginController::class, 'register'])->name('register');
 Route::post('users/signup/store', [\App\Http\Controllers\LoginController::class, 'postregister'])->name('postregister');
-Route::get('users/account/{id}', [AccountControllerHome::class, 'index'])->name('profile');
-Route::get('users/account/{id}/order/{date}', [AccountControllerHome::class, 'order'])->name('order');
-Route::post('users/account/{id}/order/{date}', [AccountControllerHome::class, 'cancel'])->name('account.order.cancel');
-Route::get('users/account/settings/{id}', [AccountControllerHome::class, 'setting'])->name('setting');
-Route::post('users/account/settings/{id}', [AccountControllerHome::class, 'update'])->name('update');
+Route::middleware(['auth'])->group(function () {
+    Route::get('users/account/{id}', [AccountControllerHome::class, 'index'])->name('profile');
+    Route::get('users/account/{id}/order/{date}', [AccountControllerHome::class, 'order'])->name('order');
+    Route::post('users/account/{id}/order/{date}', [AccountControllerHome::class, 'cancel'])->name('account.order.cancel');
+    Route::get('users/account/settings/{id}', [AccountControllerHome::class, 'setting'])->name('setting');
+    Route::post('users/account/settings/{id}', [AccountControllerHome::class, 'update'])->name('update');
+});
 Route::post('users/account/settings/{id}/password-reset', [AccountControllerHome::class, 'changePassword'])->name('setting.change-password');
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('users/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('users/wishlist/add/{product}', [WishlistController::class, 'store'])->name('wishlist.add');
+    Route::delete('users/wishlist/remove/{product}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
+});
 
 
 

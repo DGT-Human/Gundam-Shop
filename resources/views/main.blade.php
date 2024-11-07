@@ -17,13 +17,13 @@
         <div class="sidebar-content flex-w w-full p-lr-65 js-pscroll">
             <ul class="sidebar-link w-full">
                 <li class="p-b-13">
-                    <a href="index.html" class="stext-102 cl2 hov-cl1 trans-04">
+                    <a href="/" class="stext-102 cl2 hov-cl1 trans-04">
                         Home
                     </a>
                 </li>
 
                 <li class="p-b-13">
-                    <a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+                    <a href="{{ url('users/wishlist') }}" class="stext-102 cl2 hov-cl1 trans-04">
                         My Wishlist
                     </a>
                 </li>
@@ -51,9 +51,13 @@
 
 
                 <li class="p-b-13">
-                    <a href="{{ url('users/account/' . Auth::user()->id)}}" class="stext-102 cl2 hov-cl1 trans-04">
-                        Track Oder
-                    </a>
+                    @if(Auth::check())
+                        <a href="{{ url('users/account/' . Auth::user()->id)}}" class="stext-102 cl2 hov-cl1 trans-04">
+                            Track Order
+                        </a>
+                    @else
+                        <p class="stext-102 cl2 hov-cl1 trans-04">Login to track your order</p>
+                    @endif
                 </li>
 
                 <li class="p-b-13">
