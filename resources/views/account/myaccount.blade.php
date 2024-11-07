@@ -81,9 +81,18 @@
                     </div>
                 </div><!-- /.card-body -->
             </div>
-        <div class="d-flex justify-content-center mt-5">
-            {{ $groups->links('pagination') }} <!-- Pagination links -->
-        </div>
+        @php
+            $groups = collect($groups); // Chuyển mảng thành Collection nếu cần
+        @endphp
+        @if ($groups->isEmpty())
+            <div class="text-center p-t-40 mt-5">
+                <h2>You have no orders.</h2>
+            </div>
+        @else
+            <div class="d-flex justify-content-center mt-5">
+                {{ $groups->links('pagination') }} <!-- Pagination links -->
+            </div>
+        @endif
     </div>
     <div class="mt-5">
 

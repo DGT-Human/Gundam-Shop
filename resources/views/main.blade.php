@@ -59,18 +59,6 @@
                         <p class="stext-102 cl2 hov-cl1 trans-04">Login to track your order</p>
                     @endif
                 </li>
-
-                <li class="p-b-13">
-                    <a href="#" class="stext-102 cl2 hov-cl1 trans-04">
-                        Refunds
-                    </a>
-                </li>
-
-                <li class="p-b-13">
-                    <a href="#" class="stext-102 cl2 hov-cl1 trans-04">
-                        Help & FAQs
-                    </a>
-                </li>
             </ul>
 
             <div class="sidebar-gallery w-full p-tb-30">
