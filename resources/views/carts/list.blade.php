@@ -111,8 +111,8 @@
 								</span>
                             </div>
                                 <p class="stext-111 cl6 p-t-2">
-                                    Hãy nhập thông tin giao hàng để xem phí vận chuyển.
-                                    Lưu ý: Chỉ thanh toán khi nhận hàng.
+                                    Hãy nhập thông tin giao hàng để xem phí vận chuyển. <br>
+                                    Lưu ý: Chỉ thanh toán khi nhận hàng (Phí ship là 29.000đ và Free shipping với đơn trên 1.000.000đ).
                                 </p>
 
                                 <div class="p-t-15">

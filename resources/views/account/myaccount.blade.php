@@ -10,17 +10,17 @@
                             <div class="card-header">
                                 <h3 class="card-title">My Orders</h3>
 
-                                <div class="card-tools">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+{{--                                <div class="card-tools">--}}
+{{--                                    <div class="input-group input-group-sm" style="width: 150px;">--}}
+{{--                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">--}}
 
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                        <div class="input-group-append">--}}
+{{--                                            <button type="submit" class="btn btn-default">--}}
+{{--                                                <i class="fas fa-search"></i>--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                         <div class="card-body table-responsive p-0">
@@ -81,9 +81,15 @@
                     </div>
                 </div><!-- /.card-body -->
             </div>
-        <div class="d-flex justify-content-center mt-5">
-            {{ $groups->links('pagination') }} <!-- Pagination links -->
-        </div>
+        @if (empty($groups))
+            <div class="text-center p-t-40 mt-5">
+                <h2>You have no orders.</h2>
+            </div>
+        @else
+            <div class="d-flex justify-content-center mt-5">
+                {{ $groups->links('pagination') }} <!-- Pagination links -->
+            </div>
+        @endif
     </div>
     <div class="mt-5">
 

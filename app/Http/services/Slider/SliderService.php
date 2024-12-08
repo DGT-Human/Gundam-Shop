@@ -13,12 +13,42 @@ class SliderService
     public function insert($request)
     {
         try {
+            // Debug request
+            \Log::info('Request Data:', [
+                'all' => $request->all(),
+                'has_file' => $request->hasFile('thumb')
+            ]);
 
-            Slider::Create($request->all());
-            Session::flash('success', 'Thêm mới thành công');
-        } catch (\Exception $e) {
-            Session::flash('error', 'Thêm mới thất bại');
-            log::info($e->getMessage());
+            // Xử lý file
+            $fileName = '';
+            if ($request->hasFile('thumb')) {
+                $file = $request->file('thumb');
+                $fileName = $file->store('sliders', 'public');
+                \Log::info('File stored as: ' . $fileName);
+            }
+
+            // Tạo slider
+            $slider = Slider::create([
+                'name' => $request->input('name'),
+                'url' => $request->input('url'),
+                'thumb' => $request->input('thumb'),
+                'sort_by' => (int)$request->input('sort_by'),
+                'active' => (int)$request->input('active')
+            ]);
+
+            \Log::info('Created slider:', ['slider' => $slider]);
+
+            if ($slider) {
+                Session::flash('success', 'Thêm Slider thành công');
+                return true;
+            }
+
+            Session::flash('error', 'Thêm Slider không thành công');
+            return false;
+
+        } catch (\Exception $err) {
+            \Log::error('Error creating slider: ' . $err->getMessage());
+            Session::flash('error', 'Thêm Slider không thành công');
             return false;
         }
     }

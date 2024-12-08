@@ -15,6 +15,8 @@
 
 </head>
 <body>
+@include('head')
+@include('header')
 @include('admin.alert')
 <section class="container forms">
     <div class="form login">

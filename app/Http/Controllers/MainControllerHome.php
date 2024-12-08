@@ -49,6 +49,9 @@ class MainControllerHome extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('search');
+        if ($keyword === null || $keyword === '' || !preg_match('/^[a-zA-Z0-9\s]+$/', $keyword)) {
+            return redirect()->route('home')->with('error', 'Từ khóa tìm kiếm không hợp lệ. Vui lòng chỉ nhập chữ cái hoặc số.');
+        }
         $menus = $this->menuService->search($keyword);
         $productCarts = $this->productService->getAll();
         $products = $this->productService->search($keyword);
@@ -59,9 +62,15 @@ class MainControllerHome extends Controller
     }
 
     public function searchMoney (Request $request){
+        $url = $request->input('category_id');
+        $url = explode('/', $url);
+        $url = end($url);
+        $url = explode('-', $url);
+        $id = $url[0];
+        $parent_id = $url[1];
         $menus = $this->menuService->show();
         $productCarts = $this->productService->getAll();
-        $products = $this->productService->searchMoney($request->input('min_price'), $request->input('max_price'));
+        $products = $this->productService->searchMoney($request->input('min_price'), $request->input('max_price'), $id, $parent_id);
         if(count($products) == 0){
             return view('menu', ['products' => $products, 'menus' =>  $menus, 'productCarts' => $productCarts, 'title' => 'Không tìm thấy kết quả']);
         }

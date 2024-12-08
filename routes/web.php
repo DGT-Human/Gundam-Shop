@@ -14,19 +14,20 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\AccountControllerHome;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ForgotPasswordController;
 
 #Menu
-Route::middleware(['auth'])->group(function () {  // nhóm các route (đường dẫn) lại với nhau và áp dụng middleware auth cho tất cả các route trong nhóm đó
+Route::middleware(['auth', 'checkAdmin'])->group(function () {  // nhóm các route (đường dẫn) lại với nhau và áp dụng middleware auth cho tất cả các route trong nhóm đó
     Route::prefix('admin')->group(function () {
         Route::get('/', [MainController::class, 'index'])->name('admin');
         Route::get('main',[MainController::class, 'index'])->name('index');
         Route::prefix('menus')->group(function () {
-            Route::get('add', [MenuController::class, 'create']);
-            Route::post('add', [MenuController::class, 'store']);
-            Route::get('list', [MenuController::class, 'index']);
-            Route::get('edit/{menu}', [MenuController::class, 'show']);
-            Route::post('edit/{menu}', [MenuController::class, 'update']);
-            Route::DELETE('destroy', [MenuController::class, 'destroy']);
+            Route::get('add', [MenuController::class, 'create'])->name('admin.menu.create');
+            Route::post('add', [MenuController::class, 'store'])->name('admin.menu.store');
+            Route::get('list', [MenuController::class, 'index'])->name('admin.menu.list');
+            Route::get('edit/{menu}', [MenuController::class, 'show'])->name('admin.menu.show');
+            Route::post('edit/{menu}', [MenuController::class, 'update'])->name('admin.menu.update');
+            Route::DELETE('destroy', [MenuController::class, 'destroy'])->name('admin.menu.destroy');
         });
         #products
         Route::prefix('products')->group(function () {
@@ -74,6 +75,11 @@ Route::post('users/login/store', [\App\Http\Controllers\LoginController::class, 
 Route::post('users/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::get('users/signup', [\App\Http\Controllers\LoginController::class, 'register'])->name('register');
 Route::post('users/signup/store', [\App\Http\Controllers\LoginController::class, 'postregister'])->name('postregister');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('forgot.password');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'handleForgotPassword']);
+Route::get('/reset-password', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password');
+Route::post('/reset-password', [ForgotPasswordController::class, 'handleResetPassword']);
+
 Route::middleware(['auth'])->group(function () {
     Route::get('users/account/{id}', [AccountControllerHome::class, 'index'])->name('profile');
     Route::get('users/account/{id}/order/{date}', [AccountControllerHome::class, 'order'])->name('order');

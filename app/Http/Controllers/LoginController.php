@@ -6,12 +6,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Services\Product\ProductService;
 
 class LoginController extends Controller
 {
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
     public function index()
     {
-        return view('account.login', ['title' => 'Đăng nhập']);
+        return view('account.login', [
+            'title' => 'Đăng nhập',
+            'productCarts' => $this->productService->getAll()
+            ]);
     }
 
     public function register()
@@ -31,7 +41,7 @@ class LoginController extends Controller
             return redirect()->route('home');
         }
 
-        $request -> session() -> flash('error', 'Tài khoản hoặc mật khẩu không đúng');
+        $request -> session() -> flash('error', 'Account not found or password is incorrect');
         return redirect()->back();
     }
 
@@ -46,7 +56,7 @@ class LoginController extends Controller
         $request->merge(['password' => Hash::make($request->password)]);
         $user = User::create($request->all());
         Auth::login($user);
-        session()->flash('success', 'Đăng ký tài khoản thành công');
+        session()->flash('success', 'Register successfully');
         return redirect()->route('login');
     }
 

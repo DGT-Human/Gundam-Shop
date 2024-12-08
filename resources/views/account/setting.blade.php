@@ -68,7 +68,7 @@
                             <div class="form-group row">
                                 <label for="inputExperience" class="col-sm-2 col-form-label">Address</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputExperience" placeholder="Experience"  name = "address">{{ Auth::user()->address }}</textarea>
+                                    <textarea class="form-control" id="inputExperience" placeholder="Address"  name = "address">{{ Auth::user()->address }}</textarea>
                                 </div>
                             </div>
                                 <div class="form-group row">

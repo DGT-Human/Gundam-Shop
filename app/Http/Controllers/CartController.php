@@ -45,11 +45,6 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function destroy(){
-        $result = $this->cartService->destroy();
-        return redirect('/carts');
-    }
-
     public function addCarts(Request $request){
         $result = $this->cartService->addCarts($request);
         return redirect('/carts');

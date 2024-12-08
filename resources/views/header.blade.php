@@ -79,24 +79,34 @@
                 {!! \App\Helpers\Helper::menuMobile($menus) !!}
 
             <li>
-                <a href="product.html">Shop</a>
+                <a href="{{ url('users/wishlist') }}">My Wishlist</a>
             </li>
-
+            @if(!Auth::check())
             <li>
-                <a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+                <a href="{{ url('users/login') }}">Login</a>
             </li>
-
-            <li>
-                <a href="blog.html">Blog</a>
-            </li>
-
-            <li>
-                <a href="about.html">About</a>
-            </li>
-
-            <li>
-                <a href="contact.html">Contact</a>
-            </li>
+            @else
+                <li>
+                    <a href="{{ url('users/account/settings/'. Auth::user()->id) }}">My Account: <b>{{ Auth::user()->name }}</b></a>
+                    <span> | </span>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+                <li>
+                    @if(Auth::check())
+                        <a href="{{ url('users/account/' . Auth::user()->id)}}">
+                            Track Order
+                        </a>
+                    @else
+                        <p>Login to track your order</p>
+                    @endif
+                </li>
+            @endif
         </ul>
     </div>
 
