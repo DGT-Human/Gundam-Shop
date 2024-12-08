@@ -66,6 +66,7 @@
                             </ul>
                         </div>
                         <form action="/search-money" method="GET">
+                            <input type="hidden" name="category_id" value="{{ url()->current() }}">
                         <div class="filter-col2 p-r-15 p-b-27">
                         <div class="mtext-102 cl2 p-b-15">
                             <label for="priceRange">Price range:</label>
@@ -73,7 +74,7 @@
                                    oninput="document.getElementById('minPriceOutput').innerHTML = this.value.toLocaleString('vi-VN')">
                             <span id="minPriceOutput">500,000</span> VND
 
-                            <input type="range" id="priceRangeMax" name="max_price" min="0" max="10000000" step="10000" value="10000000"
+                            <input type="range" id="priceRangeMax" name="max_price" min="1000000" max="10000000" step="10000" value="10000000"
                                    oninput="document.getElementById('maxPriceOutput').innerHTML = this.value.toLocaleString('vi-VN')">
                             <span id="maxPriceOutput">10,000,000</span> VND
                         </div>
@@ -94,9 +95,11 @@
 
                 @include('product.list')
             <!-- Load more -->
-            <div class="flex-c-m flex-w w-full p-t-45">
-                {{ $products->links('pagination') }}
-            </div>
+            @if (!request('search') && !request('min_price') && !request('max_price'))
+                <div class="flex-c-m flex-w w-full p-t-45">
+                    {{ $products->appends(request()->query())->links('pagination') }}
+                </div>
+            @endif
         </div>
     </div>
 

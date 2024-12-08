@@ -25,11 +25,11 @@
         </div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
-            <b>Invoice #007612</b><br>
             <br>
-            <b>Order ID:</b>{{ $order['customer_name'] }}<br>
+            <b>Order ID:</b> {{ $order['customer_id'] }} <br>
             <b>Payment Due:</b> {{ date('d/m/Y', strtotime($order['created_at'])) }}<br>
-            <b>Account:</b> 968-34567
+            <b>Account:</b> {{ $order['customer_name'] }}
+            <b>Content:</b> {{ $order['customer_content'] }}
         </div>
         <!-- /.col -->
     </div>
@@ -79,7 +79,7 @@
     <div class="row">
         <!-- /.col -->
         <div class="col-6">
-            <p class="lead">Amount Due 2/22/2014</p>
+            <p class="lead">Amount Due {{ date('d/m/Y', strtotime($order['created_at'])) }}</p>
             <p>
                 @if($order['status'] == 'pending')
                     <span class="badge bg-warning">{{ $order['status'] }}</span>

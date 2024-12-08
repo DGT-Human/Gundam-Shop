@@ -18,7 +18,7 @@ class CartService
         $product_id = (int) $request->input('product_id');
         $quantity = Product::find($product_id)->quantity;
         if($qty <= 0 || $product_id <= 0 || $qty > $quantity){
-            Session::flash('error', 'Số lượng sản phẩm không hợp lệ');
+            Session::flash('error', 'Invalid product quantity');
             return false;
         }
 
@@ -32,7 +32,7 @@ class CartService
         $exists = Arr::exists($carts, $product_id);
         if($exists){
             if ($carts[$product_id] + $qty > $quantity){
-                Session::flash('error', 'Số lượng sản phẩm không hợp lệ');
+                Session::flash('error', 'Invalid product quantity');
                 return false;
             }
             else {
@@ -83,32 +83,44 @@ class CartService
             if(is_null($carts)){
                 return false;
             }
+
             $customer = Customers::where('email', $request->input('email'))->first();
             if($customer){
-                $this->infoProductCart($carts, $customer);
-                DB::commit();
-                Session::flash('success', 'Đặt hàng thành công');
-                SendMail::dispatch($request->input('email'))->delay(now()->addSeconds(5));
-                Session::forget('carts');
-                return true;
+                if (empty($request->input('name')) || empty($request->input('phone')) || empty($request->input('address'))) {
+                    Session::flash('error', 'Please enter name, phone and address');
+                }
+                else{
+                    $this->infoProductCart($carts, $customer);
+                    DB::commit();
+                    Session::flash('success', 'Order successful');
+                    SendMail::dispatch($request->input('email'))->delay(now()->addSeconds(5));
+                    Session::forget('carts');
+                    return true;
+                }
             }
             $customer = Customers::Create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'phone' => $request->input('phone'),
                 'address' => $request->input('address'),
-                'content' => $request->input('content')
+                'content' => $request->input('content'),
             ]);
+
+            if($customer->content !== $request->input('content')){
+                $customer->content = $request->input('content');
+                $customer->save();
+            }
+
             $this->infoProductCart($carts, $customer);
             DB::commit();
-           Session::flash('success', 'Đặt hàng thành công');
+           Session::flash('success', 'Order successful');
            SendMail::dispatch($request->input('email'))->delay(now()->addSeconds(5));
            Session::forget('carts');
            return true;
         }catch (\Exception $e){
             DB::rollBack();
             log::info($e->getMessage());
-            Session::flash('error', 'Đặt hàng thất bại');
+            Session::flash('error', 'Order failed');
             return false;
         }
     }
@@ -133,6 +145,8 @@ class CartService
                 'product_id' => $product->id,
                 'quantity' => $carts[$product->id],
                 'price' => $product->price_sale !== 0 ? $product->price_sale : $product->price,
+                'created_at' => now(),
+                'updated_at' => now()
             ];
             $product->quantity -= $quantity_in_cart;
             $product->save();

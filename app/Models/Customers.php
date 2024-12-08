@@ -15,5 +15,8 @@ class Customers extends Model
         'address',
         'content',
     ];
-
+    protected static function newFactory()
+    {
+        return \Database\Factories\CustomerFactory::new();
+    }
 }

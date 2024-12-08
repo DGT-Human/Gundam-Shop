@@ -26,7 +26,7 @@ class AccountControllerHome extends Controller
         $orders = $this->accountService->getOrders($id);
 //        dd($orders);
         return view('account.myaccount', [
-            'title' => 'Thông tin cá nhân',
+            'title' => 'Thông tin đơn hàng',
             'groups' => $orders,
             'productCarts' => $this->productService->getAll()
         ]);

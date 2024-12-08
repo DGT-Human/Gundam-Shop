@@ -17,7 +17,7 @@ class UserController extends Controller
     }
     public function index(){
         return view('admin.user.list', [
-            'title' => 'Danh Sách Sản Phẩm',
+            'title' => 'Danh Sách Tài Khoản',
             'users' => $this->AccountAdminService->getAll()
         ]);
     }

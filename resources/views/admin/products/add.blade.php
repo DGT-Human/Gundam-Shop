@@ -38,6 +38,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label for="menu">Giá giảm</label>
                         <input type="number" name="price_sale" value="{{ old('price_sale') }}"  class="form-control" >
                     </div>
                 </div>

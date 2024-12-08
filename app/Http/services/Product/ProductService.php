@@ -50,9 +50,15 @@ class ProductService
         return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->where('name', 'like', "%$keyword%")->where('active', 1)->paginate(8);
     }
 
-    public function searchMoney(mixed $input, mixed $input1)
+    public function searchMoney(mixed $input, mixed $input1, mixed $input2, mixed $input3)
     {
-        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->whereBetween('price', [$input, $input1])->where('active', 1)->paginate(8);
+        if($input3 == 0){
+            $menu = Menu::where('parent_id', $input2)->get();
+            foreach ($menu as $item){
+                $menuChild[] = $item->id;
+            }
+            return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->whereIn('menu_id', $menuChild)->whereBetween('price', [$input, $input1])->where('active', 1)->get();        }
+        return Product::select('id', 'name', 'price', 'price_sale', 'thumb')->whereBetween('price', [$input, $input1])->where('menu_id', $input2)->where('active', 1)->get();
     }
 
 }

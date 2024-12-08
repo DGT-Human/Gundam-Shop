@@ -7,6 +7,7 @@ use App\Models\Customers;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Hash;
 
 class AccountService
 {
@@ -28,6 +29,9 @@ class AccountService
     public function getOrders($id)
     {
         $user = User::find($id);
+        if (!$user) {
+            return [];
+        }
         $customer = Customers::where('email', $user->email)->first();
         if(!$customer){
             return [];
@@ -130,7 +134,7 @@ class AccountService
             $product->quantity += $cart->quantity;
             $product->save();
         }
-        Session()->flash('success', 'Hủy đơn hàng thành công');
+        Session()->flash('success', 'Cancel order success');
     }
 
     public function changePassword($request, $id)
@@ -139,18 +143,28 @@ class AccountService
         if(!$user){
             return false;
         }
-        if (!bcrypt($request->input('old_password')) === $user->password) {
-            session()->flash('error', 'Mật khẩu cũ không đúng');
-            return false;
 
-        }
-        if ($request->input('new_password') != $request->input('password_confirmation')) {
-            session()->flash('error', 'Xác nhận mật khẩu không đúng');
+        // Kiểm tra mật khẩu cũ
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            session()->flash('error', 'Password old is incorrect');
             return false;
         }
-        $user->password = bcrypt($request->input('new_password'));
-        $user->save();
-        session()->flash('success', 'Đổi mật khẩu thành công');
-        return true;
+
+        // Kiểm tra mật khẩu mới và xác nhận
+        if ($request->input('new_password') != $request->input('confirm_password')) {
+            session()->flash('error', 'Password new is not match');
+            return false;
+        }
+
+        // Cập nhật mật khẩu mới
+        try {
+            $user->password = Hash::make($request->input('new_password'));
+            $user->save();
+            session()->flash('success', 'Change password success');
+            return true;
+        } catch (\Exception $e) {
+            session()->flash('error', 'Change password failed');
+            return false;
+        }
     }
 }

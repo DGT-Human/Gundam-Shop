@@ -17,7 +17,7 @@
         <tbody>
             @foreach($orders as $key => $order)
                 <tr>
-                    <th>{{ $order->customer_id * $order->customer_phone }}</th>
+                    <th>{{ $order->customer_id }}</th>
                     <th>{{ $order->customer_name }}</th>
                     <th>{{ $order->customer_email }}</th>
                     <th>{{ $order->customer_phone }}</th>
